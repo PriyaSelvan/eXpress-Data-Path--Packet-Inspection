@@ -245,7 +245,8 @@ struct udphdr {
 Integers retrieved from packets must be converted to host order byte order using `ntohs` or `ntohl` depending on the data size. 
 
 ```
-// If the destination port of the packet is 5001, it will be stored in the packet as htons(5001) = 35091
+// If the destination port of the packet is 5001, 
+// it will be stored in the packet as htons(5001) = 35091
 
 dest_port = ntohs(th->dest);
 ```
@@ -254,7 +255,8 @@ Similarly, before changing packet contents, the integer must be converted to net
 
 
 ```
-// If we have to change the destination port to 8000, we need to convert it to network byte order first
+// If we have to change the destination port to 8000, 
+// we need to convert it to network byte order first
 
 th->dest = htons(8000);
 ```
