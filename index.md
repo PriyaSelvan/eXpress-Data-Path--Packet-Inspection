@@ -63,6 +63,7 @@ int xdp_load_balance(struct xdp_md *ctx)
 ```
 
 Before analysing the ethernet header, verfication is required to check weather `data_end` is out of bounds compared to the ethernet packet
+
  ```
  nh_off = sizeof(*eth);
 	if(data + nh_off > data_end)
@@ -84,6 +85,7 @@ struct ethhdr {
 ```
 
 An example of ethernet packet inspection is as follows. The below example checks for the underlying network layer protocol. The function `htons` converts an integer from host level to network level byte order.
+
 ```
 h_proto = eth->h_proto;
 
@@ -107,7 +109,8 @@ if (iph + 1 > data_end)
 		return XDP_DROP;
 ```
 
-The fields of an IP packet can be used for analysis and modification. \
+The fields of an IP packet can be used for analysis and modification. 
+
 ### IPv4 Header:
 
 ```
@@ -133,7 +136,9 @@ struct iphdr {
 	/*The options start here. */
 };
 ```
+
 ### IPv6 Header:
+
 ```
 struct ipv6hdr {
 #if defined(__LITTLE_ENDIAN_BITFIELD)
@@ -157,7 +162,9 @@ struct ipv6hdr {
 ```
 
 ## Transport Layer Packet
+
 The IP protocol header field can be used to determined if the packet is TCP or UDP. The transport header can be retreived as follows. The `data_end` bound verification is also required.
+
 ```
 	struct tcphdr *th;
 	struct udphdr *uh;
@@ -178,8 +185,11 @@ The IP protocol header field can be used to determined if the packet is TCP or U
 		return XDP_DROP;
 	}
 ```
-The following describes the `tcphdr` and `udphdr` structures. \
+
+The following describes the `tcphdr` and `udphdr` structures. 
+
 ### TCP Header:
+
 ```
 struct tcphdr {
 	__be16	source;
@@ -216,7 +226,9 @@ struct tcphdr {
 	__be16	urg_ptr;
 };
 ```
+
 ### UDP Header:
+
 ```
 struct udphdr {
 	__be16	source;
@@ -225,4 +237,5 @@ struct udphdr {
 	__sum16	check;
 };
 ```
+
 ## Concerns for retrieving and modifying packets
