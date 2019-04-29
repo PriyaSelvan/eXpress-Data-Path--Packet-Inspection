@@ -1,4 +1,4 @@
-### Overview
+# Overview
 
 The basic function of an XDP program involves packet inspection, analysis and modification. This post provides a precise description of the basic data structures and functions involved in an XDP program.
 
@@ -7,10 +7,14 @@ The basic function of an XDP program involves packet inspection, analysis and mo
 
 After a packet is handled by the XDP Program, it has to continue with either of the following operations,
 
-**1. Abort:** Abort the execution of an XDP Program. The current and future incoming packets in the interface are not processed by XDP. This is a non-graceful exit. \
-**2. Drop:** Drop the packet from the interface. \
-**3. Pass:** Pass the packet to the kernel stack to reach the application. \
-**4. Transmit:** Emit the packet to the same interface it arrived at. \
+**1. Abort:** Abort the execution of an XDP Program. The current and future incoming packets in the interface are not processed by XDP. This is a non-graceful exit. 
+
+**2. Drop:** Drop the packet from the interface. 
+
+**3. Pass:** Pass the packet to the kernel stack to reach the application. 
+
+**4. Transmit:** Emit the packet to the same interface it arrived at. 
+
 **5. Redirect:** Redirect into a BPF cpumap, meaning, the CPUs serving XDP on the NIC’s receive queues can continue to do so and push the packet for processing the upper kernel stack to a remote CPU. 
 
 ```
@@ -104,7 +108,7 @@ if (iph + 1 > data_end)
 ```
 
 The fields of an IP packet can be used for analysis and modification. \
-IPv4 Header:
+### IPv4 Header:
 
 ```
 struct iphdr {
@@ -129,7 +133,7 @@ struct iphdr {
 	/*The options start here. */
 };
 ```
-IPv6 Header:
+### IPv6 Header:
 ```
 struct ipv6hdr {
 #if defined(__LITTLE_ENDIAN_BITFIELD)
@@ -175,7 +179,7 @@ The IP protocol header field can be used to determined if the packet is TCP or U
 	}
 ```
 The following describes the `tcphdr` and `udphdr` structures. \
-TCP Header:
+### TCP Header:
 ```
 struct tcphdr {
 	__be16	source;
@@ -212,7 +216,7 @@ struct tcphdr {
 	__be16	urg_ptr;
 };
 ```
-UDP Header:
+### UDP Header:
 ```
 struct udphdr {
 	__be16	source;
