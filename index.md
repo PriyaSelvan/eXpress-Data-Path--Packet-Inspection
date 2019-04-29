@@ -239,3 +239,30 @@ struct udphdr {
 ```
 
 ## Concerns for retrieving and modifying packets
+
+# Byte order translation
+
+Integers retrieved from packets must be converted to host order byte order using `ntohs` or `ntohl` depending on the data size. 
+
+```
+// If the destination port of the packet is 5001, it will be stored in the packet as htons(5001) = 35091
+
+dest_port = ntohs(th->dest);
+```
+
+Similarly, before changing packet contents, the integer must be converted to network byte order using `htons` or `htonl` depending on the data size.
+
+
+```
+// If we have to change the destination port to 8000, we need to convert it to network byte order first
+
+th->dest = htons(8000);
+```
+
+# Incorrect checksum
+
+Modifying packet headers results in incorrect checksum which makes in interface drop the packet. To prevent this,
+
+1. Disable checksum - security risk
+
+2. Recalculate checksum
