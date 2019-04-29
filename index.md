@@ -240,7 +240,7 @@ struct udphdr {
 
 ## Concerns for retrieving and modifying packets
 
-# Byte order translation
+### Byte order translation
 
 Integers retrieved from packets must be converted to host order byte order using `ntohs` or `ntohl` depending on the data size. 
 
@@ -259,7 +259,7 @@ Similarly, before changing packet contents, the integer must be converted to net
 th->dest = htons(8000);
 ```
 
-# Incorrect checksum
+### Incorrect checksum
 
 Modifying packet headers results in incorrect checksum which makes in interface drop the packet. To prevent this,
 
