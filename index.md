@@ -31,6 +31,7 @@ enum xdp_action {
 	XDP_REDIRECT,
 };
 ```
+Source: `/include/uapi/linux/bpf.h`
 
 ## Incoming packet
 
@@ -46,13 +47,15 @@ struct xdp_md {
 	__u32 rx_queue_index;  /* rxq->queue_index  */
 };
 ```
+Source: `/include/uapi/linux/bpf.h`
+
 ## Ethernet packet
 
 The incoming packet is an ethernet packet and can be cast to `ethhdr` to access the header fields.
 
 ```
-SEC("xdp_load_balancer")
-int xdp_load_balance(struct xdp_md *ctx)
+SEC("ethr_example")
+int ethr_example(struct xdp_md *ctx)
 {
 	void *data_end = (void *)(long)ctx->data_end;
 	void *data = (void *)(long)ctx->data;
@@ -62,7 +65,7 @@ int xdp_load_balance(struct xdp_md *ctx)
 }
 ```
 
-Before analysing the ethernet header, verfication is required to check weather `data_end` is out of bounds compared to the ethernet packet
+Before analysing the ethernet header, verfication is required to check whether `data_end` is out of bounds compared to the ethernet packet
 
  ```
  nh_off = sizeof(*eth);
@@ -83,6 +86,7 @@ struct ethhdr {
 	__be16		h_proto;		/* packet type ID field	*/
 } __attribute__((packed));
 ```
+Source: `/include/uapi/linux/if_ether.h`
 
 An example of ethernet packet inspection is as follows. The below example checks for the underlying network layer protocol. The function `htons` converts an integer from host level to network level byte order.
 
@@ -136,6 +140,7 @@ struct iphdr {
 	/*The options start here. */
 };
 ```
+Source: `/include/uapi/linux/ip.h`
 
 ### IPv6 Header:
 
@@ -160,6 +165,7 @@ struct ipv6hdr {
 	struct	in6_addr	daddr;
 };
 ```
+Source: `/include/uapi/linux/ipv6.h`
 
 ## Transport Layer Packet
 
@@ -226,6 +232,7 @@ struct tcphdr {
 	__be16	urg_ptr;
 };
 ```
+Source: `/include/uapi/linux/tcp.h`
 
 ### UDP Header:
 
@@ -237,6 +244,7 @@ struct udphdr {
 	__sum16	check;
 };
 ```
+Source: `/include/uapi/linux/udp.h`
 
 ## Concerns for retrieving and modifying packets
 
