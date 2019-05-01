@@ -275,4 +275,6 @@ Modifying packet headers results in incorrect checksum which makes in interface 
 
 1. Disable checksum - security risk
 
-2. Recalculate checksum
+2. Recalculate checksum - The L4 checksum can be re calculated and assigned by `bpf_l4_csum_replace` function defined in `/net/core/filter.c`. There exists functions to re calculate other checksum differences as well. Currently, this function has _not_ been tested. This solution is just a suggestion based on reserach about modifying L4 checksum on XDP (which might not be extensive or enough).
+
+
